@@ -13,19 +13,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
+  margin-top: 30px;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -46,12 +52,108 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.checkbox-pb {
+  display: flex;
+}
+
+.accordion {
+  border: 1px solid grey;
+  padding: 1em;
+  width: 90%;
+}
+
+input {
+  margin-right: 1em;
+}
+
+.corsive {
+  font-style: italic;
+  margin: 1em;
+}
+
+h2 {
+  width: 100%;
+}
+
+.status {
+  color: lime;
+  width: 100%;
+  background-color: yellow;
+  font-weight: bolder;
+}
+
+.category {
+  font-size: 18px;
+  text-align: center;
+  width: 100%;
+  margin: 1em;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+ul>li {
+  margin: 1em;
+  border: 1px solid black;
+  padding: 1em;
+  background-color: lightblue;
+  color: blue;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 400px;
+  text-align: center;
+}
+
+#fname {
+  width: 500px;
+  padding: 1em;
+  text-align: center;
+}
+
+label {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 50%;
+}
+
+.label-sm {
+  width: 80px;
+  margin-bottom: 0;
+}
+
+form {
+  width: 90%;
+  display: flex;
+  margin-top: 50px;
+}
+
+.submit-bt {
+  padding: 1em;
+  margin-left: 50px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -59,10 +161,13 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
+    margin-top: 10px;
   }
 }
