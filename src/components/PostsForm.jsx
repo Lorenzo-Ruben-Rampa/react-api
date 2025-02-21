@@ -79,8 +79,8 @@ const PostsForm = () => {
                         <li
                             key={post.id}>
                             <h2>{post.title}</h2>
-                            <p className="corsive">Tag: {post.tags.map((tag) => (tag))}</p>
-                            <p>{post.contenuto}</p>
+                            <p className="corsive">Tag: {post.tags}</p>
+                            <p>{post.content}</p>
                             <div className="img-container"><img src={`http://localhost:3000${post.image}`} /></div>
                             {post.available && <p className="status">Pubblicato</p>}
                             <button onClick={() => removePost(post.id)}>Cancella</button>
