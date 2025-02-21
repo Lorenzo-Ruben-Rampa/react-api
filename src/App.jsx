@@ -64,7 +64,7 @@ const App = () => {
   // }
 
   return (
-    <div>< PostsForm articles={articles} /></div>
+    <div>< PostsForm /></div>
   )
 }
 

@@ -19,8 +19,12 @@ const PostsForm = () => {
 
     // gestion API
     function fetchPosts() {
-        axios.get("https://localhost:3000/posts/")
-            .then((res) => setPosts(res.data))
+        axios.get("http://localhost:3000/posts/")
+            .then((res) => {
+                console.log(res.data);
+                setPosts(res.data)
+            }
+            )
         //setMenu(res.data)
         // console.log(res)
         // console.log(res.data)
@@ -41,7 +45,7 @@ const PostsForm = () => {
                 id: menu.length ? menu[menu.length - 1].id + 1 : 1
             };
             setPosts((prevPosts) => [...prevPosts, PostWithId]);
-            setNewPost({ title: '', content: '', tags: '', available: false });
+            setNewPost({ title: '', content: '', image: '', tags: '', available: false });
         } else {
             alert('Per favore, compila tutti i campi.');
         }
@@ -74,10 +78,10 @@ const PostsForm = () => {
                     {menu.map((post) => (
                         <li
                             key={post.id}>
-                            <h2>{post.titolo}</h2>
-                            <p className="corsive">Tag {post.tags}</p>
+                            <h2>{post.title}</h2>
+                            <p className="corsive">Tag: {post.tags}</p>
                             <p>{post.contenuto}</p>
-                            <div>{post.image}</div>
+                            <div><img src={`http://localhost:3000/${post.image}`} /></div>
                             {post.available && <p className="status">Pubblicato</p>}
                             <button onClick={() => removePost(post.id)}>Cancella</button>
                         </li>
@@ -91,7 +95,7 @@ const PostsForm = () => {
                         <input
                             type="text"
                             name="title"
-                            value={newPost.titolo}
+                            value={newPost.title}
                             onChange={handleInputChange}
                             placeholder="Inserisci il titolo" />
                     </label>
@@ -122,7 +126,7 @@ const PostsForm = () => {
                             name="image"
                             value={newPost.image}
                             onChange={handleInputChange}
-                            placeholder="Inserisci il link dell'immagine"
+                            placeholder="Inserisci link immagine"
                         />
                     </label>
                     <div className="checkbox-pb">
