@@ -74,6 +74,15 @@ button:focus-visible {
   margin-bottom: 50px;
 }
 
+.image-container {
+  max-width: 200px;
+  max-height: 150px;
+}
+
+img {
+  width: 100%;
+}
+
 .checkbox-pb {
   display: flex;
 }
