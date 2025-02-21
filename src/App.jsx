@@ -49,9 +49,6 @@ const App = () => {
     }
   ];
 
-  // Stato degli articoli
-  const [articles, setArticles] = useState(initialArticlesArray);
-
   //  Nuovo articolo da aggiungere
   // {
   // id: 7,  
@@ -67,7 +64,7 @@ const App = () => {
   // }
 
   return (
-    <div>< PostsForm articles={articles} setArticles={setArticles} /></div>
+    <div>< PostsForm articles={articles} /></div>
   )
 }
 

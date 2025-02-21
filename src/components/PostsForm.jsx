@@ -2,22 +2,25 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import React from 'react'
 
-const PostsForm = ({ articles, setArticles }) => {
+const PostsForm = () => {
+
+    // Stato degli articoli
+    const [menu, setPosts] = useState([]);
 
     // Modifico in modo che l'array tratti oggetti, non più stringhe
-    const [newArticle, setNewArticle] = useState({
+    const [newPost, setNewPost] = useState({
         id: Number,
-        titolo: '',
-        autore: '',
-        contenuto: '',
-        categoria: '',
+        title: '',
+        content: '',
+        image: '',
+        tags: '',
         available: false
     });
 
     // gestion API
     function fetchPosts() {
         axios.get("https://localhost:3000/posts/")
-            .then((res) => setArticles(res.data))
+            .then((res) => setPosts(res.data))
         //setMenu(res.data)
         // console.log(res)
         // console.log(res.data)
@@ -25,17 +28,20 @@ const PostsForm = ({ articles, setArticles }) => {
 
     // useEffect
     useEffect(fetchPosts, []);
+    // useEffect(() => {
+    //     console.log("Eseguita");
+    // }, []);
 
     // Modifica al gestore per l'aggiunta di un nuovo articolo in caso i campi non sono compilati
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (newArticle.titolo) {
-            const articleWithId = {
-                ...newArticle,
-                id: articles.length ? articles[articles.length - 1].id + 1 : 1
+        if (newPost.title) {
+            const PostWithId = {
+                ...newPost,
+                id: menu.length ? menu[menu.length - 1].id + 1 : 1
             };
-            setArticles((prevArticles) => [...prevArticles, articleWithId]);
-            setNewArticle({ titolo: '', autore: '', contenuto: '', categoria: '', available: false });
+            setPosts((prevPosts) => [...prevPosts, PostWithId]);
+            setNewPost({ title: '', content: '', tags: '', available: false });
         } else {
             alert('Per favore, compila tutti i campi.');
         }
@@ -47,42 +53,33 @@ const PostsForm = ({ articles, setArticles }) => {
         const value =
             event.target.type === "checkbox" ?
                 event.target.checked : event.target.value;
-        setNewArticle((newArticle) => ({
-            ...newArticle,
+        setNewPost((newPost) => ({
+            ...newPost,
             [event.target.name]: value,
         }));
     }
 
-    // //Rimuovere un articolo
-    const removeArticle = (id) => {
-        const updatedArticles = articles.filter((article) => article.id !== id);
-        setArticles(updatedArticles);
+    // //Rimuovere un post
+    const removePost = (id) => {
+        const updatedPosts = menu.filter((post) => menu.id !== id);
+        setPosts(updatedPosts);
     };
 
     return (
         <>
             <h1>Il mio blog</h1>
             <div className="container">
-                <div className="container">
-                    {/* button richiesta API posts */}
-                    <button onClick={fetchPosts}>Carica Post</button>
-                    <ul>
-                        {articles.map((post) => (
-                            <li key={post.id}>{post.title}</li>
-                        ))}
-                    </ul>
-                </div>
-                {/* Ciclo articoli */}
+                {/* Ciclo post */}
                 <ul>
-                    {articles.map((article) => (
+                    {menu.map((post) => (
                         <li
-                            key={article.id}>
-                            <h2>{article.titolo}</h2>
-                            <p className="corsive">Scritto da: {article.autore}</p>
-                            <p>{article.contenuto}</p>
-                            <p className="category">{article.categoria.toUpperCase()}</p>
-                            {article.available && <p className="status">Pubblicato</p>}
-                            <button onClick={() => removeArticle(article.id)}>Cancella</button>
+                            key={post.id}>
+                            <h2>{post.titolo}</h2>
+                            <p className="corsive">Tag {post.tags}</p>
+                            <p>{post.contenuto}</p>
+                            <div>{post.image}</div>
+                            {post.available && <p className="status">Pubblicato</p>}
+                            <button onClick={() => removePost(post.id)}>Cancella</button>
                         </li>
                     ))}
                 </ul>
@@ -93,53 +90,53 @@ const PostsForm = ({ articles, setArticles }) => {
                         <p className="label-sm">Titolo:</p>
                         <input
                             type="text"
-                            name="titolo"
-                            value={newArticle.titolo}
+                            name="title"
+                            value={newPost.titolo}
                             onChange={handleInputChange}
                             placeholder="Inserisci il titolo" />
                     </label>
                     <label>
-                        <p className="label-sm">Autore:</p>
+                        <p className="label-sm">Tag:</p>
                         <input
                             type="text"
-                            name="autore"
-                            value={newArticle.autore}
+                            name="tags"
+                            value={newPost.tags}
                             onChange={handleInputChange}
-                            placeholder="Inserisci l'autore"
+                            placeholder="Inserisci i tag"
                         />
                     </label>
                     <label>
                         <p className="label-sm">Contenuto:</p>
                         <input
                             type="text"
-                            name="contenuto"
-                            value={newArticle.contenuto}
+                            name="content"
+                            value={newPost.content}
                             onChange={handleInputChange}
                             placeholder="Inserisci il contenuto"
                         />
                     </label>
                     <label>
-                        <p className="label-sm">Categoria:</p>
+                        <p className="label-sm">Link immagine:</p>
                         <input
                             type="text"
-                            name="categoria"
-                            value={newArticle.categoria}
+                            name="image"
+                            value={newPost.image}
                             onChange={handleInputChange}
-                            placeholder="Inserisci la categoria"
+                            placeholder="Inserisci il link dell'immagine"
                         />
                     </label>
                     <div className="checkbox-pb">
                         <label htmlFor="available">Pubblicato
                             <input
                                 name="available"
-                                checked={newArticle.available}
+                                checked={newPost.available}
                                 onChange={handleInputChange}
                                 id="available"
                                 type="checkbox"
                             />
                         </label>
                     </div>
-                    <span><input className="submit-bt" type="submit" value="Aggiungi Articolo" /></span>
+                    <span><input className="submit-bt" type="submit" value="Aggiungi Post" /></span>
                 </form>
             </div>
         </>
