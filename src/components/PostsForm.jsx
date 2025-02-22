@@ -14,7 +14,7 @@ const PostsForm = () => {
         content: '',
         image: '',
         tags: [],
-        available: false
+        // available: false
     });
 
     // gestion API
@@ -38,8 +38,8 @@ const PostsForm = () => {
         // gestione del value a seconda del tipo di input
         const value = event.target.name === "tags" ? event.target.value.split(",") : event.target.value;
         // setta tramite setState l'oggetto con le info prese dai campi del form
-        setNewPost((currentNewPost) => ({
-            ...currentNewPost,
+        setNewPost((currentMenu) => ({
+            ...currentMenu,
             [event.target.name]: value,
         }));
     }
@@ -50,22 +50,24 @@ const PostsForm = () => {
         //chiamata verso le API in post con invio dati da backend
         axios.post("http://localhost:3000/posts", newPost)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
+                setPosts((currentPosts) => [...currentPosts, res.data])
             }
             )
             .catch(err => console.log(err))
-
-        // if (newPost.title) {
-        //     const PostWithId = {
-        //         ...newPost,
-        //         id: menu.length ? menu[menu.length - 1].id + 1 : 1
-        //     };
-        //     setPosts((prevPosts) => [...prevPosts, PostWithId]);
-        //     setNewPost({ title: '', content: '', image: '', tags: [], available: false });
-        // } else {
-        //     alert('Per favore, compila tutti i campi.');
-        // }
     };
+
+    // if (newPost.title) {
+    //     const PostWithId = {
+    //         ...newPost,
+    //         id: menu.length ? menu[menu.length - 1].id + 1 : 1
+    //     };
+    //     setPosts((prevPosts) => [...prevPosts, PostWithId]);
+    //     setNewPost({ title: '', content: '', image: '', tags: [], available: false });
+    // } else {
+    //     alert('Per favore, compila tutti i campi.');
+    // }
+
 
     //Definisco la funzione per l'onChange
     // function handleInputChange(event) {
@@ -120,7 +122,7 @@ const PostsForm = () => {
                         <input
                             type="text"
                             name="tags"
-                            value={newPost.tags.join(", ")}
+                            value={newPost.tags.join(",")}
                             onChange={handleNewPost}
                             placeholder="Inserisci i tag"
                         />
