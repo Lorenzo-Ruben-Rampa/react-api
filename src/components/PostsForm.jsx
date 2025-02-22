@@ -95,7 +95,7 @@ const PostsForm = () => {
                         <li
                             key={post.id}>
                             <h2>{post.title}</h2>
-                            <p className="corsive">Tag: {post.tags}</p>
+                            <p className="corsive">Tag: {post.tags.join(", ")}</p>
                             <div className="img-container"><img src={`http://localhost:3000${post.image}`} /></div>
                             <p className="content">{post.content}</p>
                             {post.available && <p className="status">Pubblicato</p>}
