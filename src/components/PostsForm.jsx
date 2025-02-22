@@ -13,7 +13,7 @@ const PostsForm = () => {
         title: '',
         content: '',
         image: '',
-        tags: '',
+        tags: [],
         available: false
     });
 
@@ -32,9 +32,17 @@ const PostsForm = () => {
 
     // useEffect
     useEffect(fetchPosts, []);
-    // useEffect(() => {
-    //     console.log("Eseguita");
-    // }, []);
+
+    // gestione info campi, tags
+    function handleNewPost(event) {
+        // gestione del value a seconda del tipo di input
+        const value = event.target.name === "tags" ? event.target.value.split(",") : event.target.value;
+        // setta tramite setState l'oggetto con le info prese dai campi del form
+        setNewPost((currentNewPost) => ({
+            ...currentNewPost,
+            [event.target.name]: value,
+        }));
+    }
 
     // Modifica al gestore per l'aggiunta di un nuovo articolo in caso i campi non sono compilati
     const handleSubmit = (event) => {
@@ -45,23 +53,23 @@ const PostsForm = () => {
                 id: menu.length ? menu[menu.length - 1].id + 1 : 1
             };
             setPosts((prevPosts) => [...prevPosts, PostWithId]);
-            setNewPost({ title: '', content: '', image: '', tags: '', available: false });
+            setNewPost({ title: '', content: '', image: '', tags: [], available: false });
         } else {
             alert('Per favore, compila tutti i campi.');
         }
     };
 
     //Definisco la funzione per l'onChange
-    function handleInputChange(event) {
-        //Aggiungo la checkbox nella logica InputChange
-        const value =
-            event.target.type === "checkbox" ?
-                event.target.checked : event.target.value;
-        setNewPost((newPost) => ({
-            ...newPost,
-            [event.target.name]: value,
-        }));
-    }
+    // function handleInputChange(event) {
+    //     //Aggiungo la checkbox nella logica InputChange
+    //     const value =
+    //         event.target.type === "checkbox" ?
+    //             event.target.checked : event.target.value;
+    //     setNewPost((newPost) => ({
+    //         ...newPost,
+    //         [event.target.name]: value,
+    //     }));
+    // }
 
     // //Rimuovere un post
     const removePost = (id) => {
@@ -79,7 +87,7 @@ const PostsForm = () => {
                         <li
                             key={post.id}>
                             <h2>{post.title}</h2>
-                            <p className="corsive">Tag: {post.tags}</p>
+                            <p className="corsive">Tag: {post.tags.join(", ")}</p>
                             <div className="img-container"><img src={`http://localhost:3000${post.image}`} /></div>
                             <p className="content">{post.content}</p>
                             {post.available && <p className="status">Pubblicato</p>}
@@ -96,7 +104,7 @@ const PostsForm = () => {
                             type="text"
                             name="title"
                             value={newPost.title}
-                            onChange={handleInputChange}
+                            onChange={handleNewPost}
                             placeholder="Inserisci il titolo" />
                     </label>
                     <label>
@@ -105,7 +113,7 @@ const PostsForm = () => {
                             type="text"
                             name="tags"
                             value={newPost.tags}
-                            onChange={handleInputChange}
+                            onChange={handleNewPost}
                             placeholder="Inserisci i tag"
                         />
                     </label>
@@ -115,7 +123,7 @@ const PostsForm = () => {
                             type="text"
                             name="content"
                             value={newPost.content}
-                            onChange={handleInputChange}
+                            onChange={handleNewPost}
                             placeholder="Inserisci il contenuto"
                         />
                     </label>
@@ -125,21 +133,10 @@ const PostsForm = () => {
                             type="text"
                             name="image"
                             value={newPost.image}
-                            onChange={handleInputChange}
+                            onChange={handleNewPost}
                             placeholder="Inserisci link immagine"
                         />
                     </label>
-                    <div className="checkbox-pb">
-                        <label htmlFor="available">Pubblicato
-                            <input
-                                name="available"
-                                checked={newPost.available}
-                                onChange={handleInputChange}
-                                id="available"
-                                type="checkbox"
-                            />
-                        </label>
-                    </div>
                     <span><input className="submit-bt" type="submit" value="Aggiungi Post" /></span>
                 </form>
             </div>
