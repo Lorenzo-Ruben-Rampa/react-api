@@ -21,7 +21,7 @@ const PostsForm = () => {
     function fetchPosts() {
         axios.get("http://localhost:3000/posts/")
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 setPosts(res.data)
             }
             )
@@ -47,16 +47,24 @@ const PostsForm = () => {
     // Modifica al gestore per l'aggiunta di un nuovo articolo in caso i campi non sono compilati
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (newPost.title) {
-            const PostWithId = {
-                ...newPost,
-                id: menu.length ? menu[menu.length - 1].id + 1 : 1
-            };
-            setPosts((prevPosts) => [...prevPosts, PostWithId]);
-            setNewPost({ title: '', content: '', image: '', tags: [], available: false });
-        } else {
-            alert('Per favore, compila tutti i campi.');
-        }
+        //chiamata verso le API in post con invio dati da backend
+        axios.post("http://localhost:3000/posts", newPost)
+            .then(res => {
+                console.log(res.data);
+            }
+            )
+            .catch(err => console.log(err))
+
+        // if (newPost.title) {
+        //     const PostWithId = {
+        //         ...newPost,
+        //         id: menu.length ? menu[menu.length - 1].id + 1 : 1
+        //     };
+        //     setPosts((prevPosts) => [...prevPosts, PostWithId]);
+        //     setNewPost({ title: '', content: '', image: '', tags: [], available: false });
+        // } else {
+        //     alert('Per favore, compila tutti i campi.');
+        // }
     };
 
     //Definisco la funzione per l'onChange
@@ -73,7 +81,7 @@ const PostsForm = () => {
 
     // //Rimuovere un post
     const removePost = (id) => {
-        const updatedPosts = menu.filter((post) => menu.id !== id);
+        const updatedPosts = menu.filter((post) => post.id !== id);
         setPosts(updatedPosts);
     };
 
@@ -87,7 +95,7 @@ const PostsForm = () => {
                         <li
                             key={post.id}>
                             <h2>{post.title}</h2>
-                            <p className="corsive">Tag: {post.tags.join(", ")}</p>
+                            <p className="corsive">Tag: {post.tags}</p>
                             <div className="img-container"><img src={`http://localhost:3000${post.image}`} /></div>
                             <p className="content">{post.content}</p>
                             {post.available && <p className="status">Pubblicato</p>}
@@ -112,7 +120,7 @@ const PostsForm = () => {
                         <input
                             type="text"
                             name="tags"
-                            value={newPost.tags}
+                            value={newPost.tags.join(", ")}
                             onChange={handleNewPost}
                             placeholder="Inserisci i tag"
                         />
